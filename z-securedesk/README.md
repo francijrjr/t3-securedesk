@@ -43,8 +43,8 @@ shows `host:interfaces@2.2.0` and `host:tenant@1.2.0`. The referenced repository
 actually vendors `host:interfaces@2.1.0` and `host:tenant@1.0.0`; this contract
 retains those real ABI versions rather than relabeling their definitions.
 The host-interfaces source explicitly documents its compatibility pin.
-Cluster ABI compatibility must be verified before registration; a successful
-local build alone does not verify cluster support.
+Version `0.1.0` was registered successfully in the current tenant with contract
+ID `982`. End-to-end execution has not yet been verified.
 
 Vendored packages contain other interface definitions, but `world.wit` imports
 only `tenant-context`, `kv-store`, and `http`. Logging and other capabilities
@@ -52,12 +52,16 @@ are not imported.
 The Rust standard library also introduces WASI imports in the compiled component
 (including CLI, streams, and clocks); these are visible in `wasm-tools` output.
 
-## Later runtime setup (not performed here)
+## Registration and remaining runtime setup
 
-Registration, the secrets map and its contract ACL, seeding `github_token`,
-and authorization for outbound `api.github.com` access are required before a
-live invocation can succeed. See the official
+Registration is complete for version `0.1.0` (contract ID `982`). Do not repeat
+the registration for this version. See the root [README](../README.md) for the
+registration command and recorded contract name.
+
+The secrets map and its contract ACL, seeding `github_token`, and authorization
+for outbound `api.github.com` access are still required before a live invocation
+can succeed. See the official
 [registration guide](https://docs.terminal3.io/developers/adk/get-started/walkthrough/register-contract).
-No registration, delegation, secret provisioning, or TypeScript integration
-is included in this step. GitHub POST requests are not idempotent; a repeated
+Delegation, secret provisioning, and TypeScript invocation of this contract
+are not implemented yet. GitHub POST requests are not idempotent; a repeated
 invocation can create another Issue.

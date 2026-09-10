@@ -7,6 +7,7 @@
     "dev": "tsx src/index.ts",
     "check:t3n": "tsx src/check-t3n.ts",
     "test:actions": "tsx src/test-actions.ts",
+    "register:contract": "tsx src/register-contract.ts",
     "test": "vitest run"
   },
   "dependencies": {
