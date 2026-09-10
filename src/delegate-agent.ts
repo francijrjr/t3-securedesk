@@ -12,7 +12,7 @@ try {
   await client.updateMemberDelegation({
     grantee: agentDid,
     contract_id: contract,
-    version_req: "=0.1.0",
+    version_req: "0.1.0",
     functions: ["create-ticket"],
     allowed_hosts: ["api.github.com"],
     // Tenant KV access is controlled by map ACLs; no user-data scopes are needed.
