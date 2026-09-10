@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@terminal3/t3n-sdk": "^5.2.0",
+    "@terminal3/t3n-sdk": "5.2.0",
     "dotenv": "^17.2.2"
   },
   "devDependencies": {
