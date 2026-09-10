@@ -9,15 +9,18 @@
     "check:agent": "tsx src/check-agent.ts",
     "check:delegation": "tsx src/check-delegation.ts",
     "delegate:agent": "tsx src/delegate-agent.ts",
+    "delegate:agent:011": "tsx src/delegate-agent-011.ts",
     "test:actions": "tsx src/test-actions.ts",
     "register:contract": "tsx src/register-contract.ts",
     "setup:secrets": "tsx src/setup-secrets.ts",
     "authorize:tee": "tsx src/authorize-tee.ts",
     "authorize:agent": "tsx src/authorize-agent.ts",
+    "authorize:agent:011": "tsx src/authorize-agent-011.ts",
     "logs:tee": "tsx src/read-tee-logs.ts",
     "test:tee": "tsx src/test-tee.ts",
     "test:tee:011": "tsx src/test-tee-011.ts",
     "test:agent-tee": "tsx src/test-agent-tee.ts",
+    "test:agent-tee:011": "tsx src/test-agent-tee-011.ts",
     "test": "vitest run"
   },
   "dependencies": {
