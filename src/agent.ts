@@ -19,7 +19,6 @@ export async function handleTicketRequest(request: TicketRequest) {
   }
 }
 
-// Mantém a chamada existente do index.ts.
 export async function handleSupportRequest(message: string) {
   const ticket = await createTicket("Call created by T3 SecureDesk", message);
   return {

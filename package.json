@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "check:t3n": "tsx src/check-t3n.ts",
+    "test:actions": "tsx src/test-actions.ts",
     "test": "vitest run"
   },
   "dependencies": {
