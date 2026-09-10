@@ -1,17 +1,27 @@
-import { createTicket } from "./github.js";
+﻿import { createTicket, getTicket, addComment, escalateTicket } from "./github.js";
 
-export async function handleSupportRequest(message: string) {
-  const cleanMessage = message.trim();
+type TicketRequest =
+  | { action: "create"; title: string; description: string }
+  | { action: "get"; number: number }
+  | { action: "comment"; number: number; comment: string }
+  | { action: "escalate"; number: number };
 
-  if (!cleanMessage) {
-    throw new Error("Report the user's problem.");
+export async function handleTicketRequest(request: TicketRequest) {
+  switch (request.action) {
+    case "create":
+      return createTicket(request.title, request.description);
+    case "get":
+      return getTicket(request.number);
+    case "comment":
+      return addComment(request.number, request.comment);
+    case "escalate":
+      return escalateTicket(request.number);
   }
+}
 
-  const ticket = await createTicket(
-    "Call created by T3 SecureDesk",
-    cleanMessage
-  );
-
+// Mantém a chamada existente do index.ts.
+export async function handleSupportRequest(message: string) {
+  const ticket = await createTicket("Call created by T3 SecureDesk", message);
   return {
     success: true,
     ticketNumber: ticket.number,
