@@ -1,0 +1,20 @@
+package z:securedesk@0.1.0;
+
+world securedesk {
+    import host:tenant/tenant-context@1.0.0;
+    import host:interfaces/kv-store@2.1.0;
+    import host:interfaces/http@2.1.0;
+
+    export contracts;
+}
+
+interface contracts {
+    // T3N passes JSON bytes inside its standard three-field envelope.
+    record generic-input {
+        input: option<list<u8>>,
+        user-profile: option<list<u8>>,
+        context: option<list<u8>>,
+    }
+
+    create-ticket: func(req: generic-input) -> result<list<u8>, string>;
+}
