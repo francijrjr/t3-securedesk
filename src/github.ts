@@ -1,4 +1,4 @@
-﻿import { getGitHubConfig } from "./config.js";
+import { getGitHubConfig } from "./config.js";
 
 type GitHubIssue = {
   number: number;
@@ -31,7 +31,7 @@ export async function createTicket(
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao criar chamado: ${response.status}`);
+    throw new Error(`Error creating ticket: ${response.status}`);
   }
 
   return response.json();
@@ -48,7 +48,7 @@ export async function getTicket(ticketNumber: number): Promise<GitHubIssue> {
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao consultar chamado: ${response.status}`);
+    throw new Error(`Error fetching ticket: ${response.status}`);
   }
 
   return response.json();
@@ -71,7 +71,7 @@ export async function addComment(
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao comentar chamado: ${response.status}`);
+    throw new Error(`Error commenting on ticket: ${response.status}`);
   }
 
   return response.json();
@@ -91,7 +91,7 @@ export async function escalateTicket(ticketNumber: number): Promise<{ name: stri
   });
 
   if (!response.ok) {
-    throw new Error(`Erro ao escalar chamado: ${response.status}`);
+    throw new Error(`Error escalating ticket: ${response.status}`);
   }
 
   return response.json();

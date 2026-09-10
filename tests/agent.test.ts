@@ -1,9 +1,9 @@
-﻿import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTicket, getTicket, addComment, escalateTicket } from "../src/github.js";
 import { handleSupportRequest } from "../src/agent.js";
 
 const fetchMock = vi.fn();
-const issue = { number: 7, title: "ERP", state: "open", body: "Falha", html_url: "https://github.com/test/repo/issues/7" };
+const issue = { number: 7, title: "ERP", state: "open", body: "Failure", html_url: "https://github.com/test/repo/issues/7" };
 const baseUrl = "https://api.github.com/repos/test/repo/issues";
 
 beforeEach(() => {
@@ -19,16 +19,16 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-describe("operações GitHub", () => {
-  it("preserva a criação de chamados", async () => {
+describe("GitHub operations", () => {
+  it("preserves ticket creation", async () => {
     fetchMock.mockResolvedValueOnce(Response.json(issue, { status: 201 }));
-    expect(await createTicket("ERP", "Falha")).toEqual(issue);
+    expect(await createTicket("ERP", "Failure")).toEqual(issue);
     expect(fetchMock).toHaveBeenCalledWith(baseUrl, expect.objectContaining({
-      method: "POST", body: JSON.stringify({ title: "ERP", body: "Falha" }),
+      method: "POST", body: JSON.stringify({ title: "ERP", body: "Failure" }),
     }));
   });
 
-  it("consulta título, estado, descrição e URL", async () => {
+  it("fetches title, state, description, and URL", async () => {
     fetchMock.mockResolvedValueOnce(Response.json(issue));
     expect(await getTicket(7)).toEqual(issue);
     expect(fetchMock).toHaveBeenCalledWith(`${baseUrl}/7`, expect.objectContaining({
@@ -37,8 +37,8 @@ describe("operações GitHub", () => {
     expect(fetchMock.mock.calls[0][1].body).toBeUndefined();
   });
 
-  it("adiciona o comentário informado", async () => {
-    const comment = { id: 10, body: "Usuário informou que o problema continua.", html_url: "https://github.com/test/repo/issues/7#issuecomment-10" };
+  it("adds the provided comment", async () => {
+    const comment = { id: 10, body: "The user reported that the problem persists.", html_url: "https://github.com/test/repo/issues/7#issuecomment-10" };
     fetchMock.mockResolvedValueOnce(Response.json(comment, { status: 201 }));
     expect(await addComment(7, comment.body)).toEqual(comment);
     expect(fetchMock).toHaveBeenCalledWith(`${baseUrl}/7/comments`, expect.objectContaining({
@@ -46,7 +46,7 @@ describe("operações GitHub", () => {
     }));
   });
 
-  it("adiciona prioridade sem substituir as labels existentes", async () => {
+  it("adds priority without replacing existing labels", async () => {
     const labels = [{ name: "bug" }, { name: "priority-high" }];
     fetchMock.mockResolvedValueOnce(Response.json(labels));
     expect(await escalateTicket(7)).toEqual(labels);
@@ -56,27 +56,27 @@ describe("operações GitHub", () => {
     }));
   });
 
-  it.each([401, 403, 404, 422, 500])("explica falhas HTTP %s em cada operação", async (status) => {
+  it.each([401, 403, 404, 422, 500])("reports HTTP %s failures for each operation", async (status) => {
     const operations = [
-      { run: () => createTicket("ERP", "Falha"), message: "criar" },
-      { run: () => getTicket(7), message: "consultar" },
-      { run: () => addComment(7, "Texto"), message: "comentar" },
-      { run: () => escalateTicket(7), message: "escalar" },
+      { run: () => createTicket("ERP", "Failure"), message: "creating" },
+      { run: () => getTicket(7), message: "fetching" },
+      { run: () => addComment(7, "Text"), message: "commenting on" },
+      { run: () => escalateTicket(7), message: "escalating" },
     ];
     for (const operation of operations) {
-      fetchMock.mockResolvedValueOnce(Response.json({ message: "Erro" }, { status }));
-      await expect(operation.run()).rejects.toThrow(`Erro ao ${operation.message} chamado: ${status}`);
+      fetchMock.mockResolvedValueOnce(Response.json({ message: "Error" }, { status }));
+      await expect(operation.run()).rejects.toThrow(`Error ${operation.message} ticket: ${status}`);
     }
   });
 
-  it("propaga falhas de conexão", async () => {
+  it("propagates connection failures", async () => {
     fetchMock.mockRejectedValueOnce(new TypeError("fetch failed"));
     await expect(getTicket(7)).rejects.toThrow("fetch failed");
   });
 
-  it("mantém o retorno usado pelo index.ts", async () => {
+  it("preserves the response used by index.ts", async () => {
     fetchMock.mockResolvedValueOnce(Response.json(issue, { status: 201 }));
-    expect(await handleSupportRequest("Falha")).toEqual({
+    expect(await handleSupportRequest("Failure")).toEqual({
       success: true, ticketNumber: 7, ticketUrl: issue.html_url,
     });
   });

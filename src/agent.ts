@@ -1,4 +1,4 @@
-﻿import { createTicket, getTicket, addComment, escalateTicket } from "./github.js";
+import { createTicket, getTicket, addComment, escalateTicket } from "./github.js";
 
 type TicketRequest =
   | { action: "create"; title: string; description: string }
@@ -20,7 +20,7 @@ export async function handleTicketRequest(request: TicketRequest) {
 }
 
 export async function handleSupportRequest(message: string) {
-  const ticket = await createTicket("Call created by T3 SecureDesk", message);
+  const ticket = await createTicket("Ticket created by T3 SecureDesk", message);
   return {
     success: true,
     ticketNumber: ticket.number,

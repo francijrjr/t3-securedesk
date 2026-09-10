@@ -13,16 +13,16 @@ if (!message) {
 try {
   const { tenantDid } = await connectT3n();
 
-  console.log("T3N conectado:", tenantDid);
+  console.log("Connected to T3N:", tenantDid);
 
   const result = await handleSupportRequest(message);
 
   console.log("");
-  console.log("Call created successfully.");
-  console.log("NNumber:", result.ticketNumber);
+  console.log("Ticket created successfully.");
+  console.log("Number:", result.ticketNumber);
   console.log("URL:", result.ticketUrl);
 } catch (error) {
-  console.error("Error while creating the call:");
+  console.error("Error creating ticket:");
   console.error(error);
   process.exit(1);
 }
