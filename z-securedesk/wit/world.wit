@@ -1,4 +1,4 @@
-package z:securedesk@0.1.0;
+package z:securedesk@0.1.1;
 
 world securedesk {
     import host:tenant/tenant-context@1.0.0;

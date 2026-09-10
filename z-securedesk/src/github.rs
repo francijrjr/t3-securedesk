@@ -31,7 +31,13 @@ pub fn create_ticket(input: &[u8]) -> Result<Vec<u8>, String> {
             ("X-GitHub-Api-Version".into(), "2022-11-28".into()),
         ]),
         payload: Some(payload),
-    }).map_err(|_| "GitHub request failed".to_string())?;
+    }).map_err(|error| {
+        if error.contains("egress_denied") || error.contains("egress-denied") {
+            "SECUREDESK_HTTP_EGRESS_DENIED".to_string()
+        } else {
+            "SECUREDESK_HTTP_TRANSPORT_FAILED".to_string()
+        }
+    })?;
 
     ticket_result(response.code, &response.payload)
 }
@@ -52,22 +58,22 @@ fn github_token() -> Result<String, String> {
     // T3N requires the full map name, built from the host's raw tenant DID.
     let map = format!("z:{}:secrets", hex::encode(tenant_context::tenant_did()));
     let bytes = kv_store::get(&map, b"github_token")
-        .map_err(|_| "Failed to read secrets map".to_string())?
-        .ok_or("github_token is missing from the secrets map")?;
+        .map_err(|_| "SECUREDESK_SECRET_READ_FAILED".to_string())?
+        .ok_or("SECUREDESK_SECRET_READ_FAILED")?;
     let token = String::from_utf8(bytes)
-        .map_err(|_| "github_token must be UTF-8".to_string())?;
+        .map_err(|_| "SECUREDESK_SECRET_READ_FAILED".to_string())?;
     if token.trim().is_empty() || token.contains(['\r', '\n']) {
-        return Err("github_token is empty or contains a line break".into());
+        return Err("SECUREDESK_SECRET_READ_FAILED".into());
     }
     Ok(token)
 }
 
 fn ticket_result(status: u16, payload: &[u8]) -> Result<Vec<u8>, String> {
-    if status != 201 {
-        return Err(format!("Error creating ticket: HTTP {status}"));
+    if !(200..300).contains(&status) {
+        return Err(format!("SECUREDESK_GITHUB_HTTP_{status}"));
     }
     let ticket: TicketResult = serde_json::from_slice(payload)
-        .map_err(|_| "Invalid GitHub ticket response".to_string())?;
+        .map_err(|_| "SECUREDESK_GITHUB_RESPONSE_DECODE_FAILED".to_string())?;
     serde_json::to_vec(&ticket).map_err(|_| "Failed to encode ticket result".into())
 }
 
