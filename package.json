@@ -16,6 +16,7 @@
     "authorize:agent": "tsx src/authorize-agent.ts",
     "logs:tee": "tsx src/read-tee-logs.ts",
     "test:tee": "tsx src/test-tee.ts",
+    "test:tee:011": "tsx src/test-tee-011.ts",
     "test:agent-tee": "tsx src/test-agent-tee.ts",
     "test": "vitest run"
   },
