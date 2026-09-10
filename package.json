@@ -6,9 +6,13 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "check:t3n": "tsx src/check-t3n.ts",
+    "check:agent": "tsx src/check-agent.ts",
+    "delegate:agent": "tsx src/delegate-agent.ts",
     "test:actions": "tsx src/test-actions.ts",
     "register:contract": "tsx src/register-contract.ts",
     "setup:secrets": "tsx src/setup-secrets.ts",
+    "authorize:tee": "tsx src/authorize-tee.ts",
+    "test:tee": "tsx src/test-tee.ts",
     "test": "vitest run"
   },
   "dependencies": {

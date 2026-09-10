@@ -1,0 +1,23 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "T3 SecureDesk",
+  "description": "Privacy-preserving enterprise IT service desk agent powered by Terminal 3 T3N and TEE contracts.",
+  "services": [
+    {
+      "name": "A2A",
+      "endpoint": "https://agent.example/.well-known/agent-card.json",
+      "version": "0.3.0"
+    },
+    {
+      "name": "DID",
+      "endpoint": "did:t3n:6495cf23db8d8a7ec6c507a8487856be5effc1fd",
+      "version": "v1"
+    }
+  ],
+  "x402Support": false,
+  "active": true,
+  "registrations": [],
+  "supportedTrust": [
+    "tee-attestation"
+  ]
+}
