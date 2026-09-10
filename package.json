@@ -1,0 +1,21 @@
+{
+  "name": "t3-securedesk",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "check:t3n": "tsx src/check-t3n.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@terminal3/t3n-sdk": "^5.2.0",
+    "dotenv": "^17.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
